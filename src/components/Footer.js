@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="fixed h-8 bottom-0 px-2 py-1 flex items-center justify-center w-full text-xs text-gray-500 ">
       <span>
-        Built with{" "}
+        {/* Built with{" "}
         <svg
           height="2500"
           viewBox="175.7 78 490.6 436.9"
@@ -30,7 +30,15 @@ const Footer = () => {
             class="cls-1"
             d="M61.44,0Q36.87,0,30.72,24.43q9.22-12.21,21.5-9.16c4.68,1.16,8,4.53,11.72,8.26,6,6.08,13,13.11,28.22,13.11q24.57,0,30.72-24.43-9.21,12.22-21.5,9.16c-4.68-1.16-8-4.53-11.72-8.26C83.64,7,76.67,0,61.44,0ZM30.72,36.64Q6.15,36.64,0,61.07q9.23-12.21,21.5-9.16c4.68,1.16,8,4.53,11.72,8.27,6,6.07,13,13.11,28.22,13.11q24.57,0,30.72-24.43Q82.95,61.07,70.66,58c-4.68-1.16-8-4.53-11.72-8.26-6-6.08-13-13.12-28.22-13.12Z"
           />
-        </svg>{" "}
+        </svg>{" "} */}
+        Code forked from{" "}
+        <a
+          href="https://github.com/manuarora700/react-code-editor"
+          target="__blank"
+          className="text-gray-700  hover:bg-red-500 hover:text-white font-medium"
+        >
+          GitHub
+        </a>{" "}
         by{" "}
         <a
           href="https://manuarora.in"
@@ -39,15 +47,7 @@ const Footer = () => {
         >
           Manu Arora.{" "}
         </a>
-        Code at{" "}
-        <a
-          href="https://github.com/manuarora700/react-code-editor"
-          target="__blank"
-          className="text-gray-700  hover:bg-red-500 hover:text-white font-medium"
-        >
-          GitHub.{" "}
-        </a>
-        Blog on{" "}
+        {/* Blog on{" "}
         <a
           href="https://www.freecodecamp.org/news/how-to-build-react-based-code-editor/"
           target="__blank"
@@ -63,7 +63,7 @@ const Footer = () => {
         >
           Algochurn{" "}
         </a>
-        to ace your next frontend interview.
+        to ace your next frontend interview. */}
       </span>
     </div>
   );

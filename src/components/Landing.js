@@ -16,43 +16,78 @@ import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
 
-const javascriptDefault = `/**
-* Problem: Binary Search: Search a sorted array for a target value.
-*/
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import "../App.css";
+import { codeExamples } from "../constants/codeExamples";
+import Editor from "@monaco-editor/react";
 
-// Time: O(log n)
-const binarySearch = (arr, target) => {
- return binarySearchHelper(arr, target, 0, arr.length - 1);
-};
+// const example_code_1 = `\n def mean_absolute_deviation(numbers: List[float]) -> float:
+//   """ For a given list of input numbers, calculate Mean Absolute Deviation
+//   around the mean of this dataset.
+//   Mean Absolute Deviation is the average absolute difference between each
+//   element and a centerpoint (mean in this case):
+//   MAD = average | x - x_mean |
+//   >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+//   1.0
+//   """
+//   mean = sum(numbers) / len(numbers)
+//   sum_abs_diff = 0
+//   for x in numbers:
+//       sum_abs_diff += abs(x - mean)
+//   return sum_abs_diff / len(numbers)
+// `;
 
-const binarySearchHelper = (arr, target, start, end) => {
- if (start > end) {
-   return false;
- }
- let mid = Math.floor((start + end) / 2);
- if (arr[mid] === target) {
-   return mid;
- }
- if (arr[mid] < target) {
-   return binarySearchHelper(arr, target, mid + 1, end);
- }
- if (arr[mid] > target) {
-   return binarySearchHelper(arr, target, start, mid - 1);
- }
-};
+// const example_code_2 = `\n def fib(n: int):
+//   """Return n-th Fibonacci number.
+//   >>> fib(10)
+//   55
+//   >>> fib(1)
+//   1
+//   >>> fib(8)
+//   21
+//   """
+//   if n < 2:
+//       return n
+//   return fib(n-1) + fib(n-2)`;
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const target = 5;
-console.log(binarySearch(arr, target));
-`;
+// const example_code_3 = `\n def mean_absolute_deviation(numbers: List[float]) -> float:
+// """ For a given list of input numbers, calculate Mean Absolute Deviation
+// around the mean of this dataset.
+// Mean Absolute Deviation is the average absolute difference between each
+// element and a centerpoint (mean in this case):
+// MAD = average | x - x_mean |
+// >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+// 1.0
+// """
+// mean = sum(numbers) / len(numbers)
+// sum_abs_diff = 0
+// for x in numbers:
+//     sum_abs_diff += abs(x - mean)
+// return sum_abs_diff / len(numbers)
+// `;
+
+// const example_code_4 = `\n def fib(n: int):
+//   """Return n-th Fibonacci number.
+//   >>> fib(10)
+//   55
+//   >>> fib(1)
+//   1
+//   >>> fib(8)
+//   21
+//   """
+//   if n < 2:
+//       return n
+//   return fib(n-1) + fib(n-2)`;
 
 const Landing = () => {
-  const [code, setCode] = useState(javascriptDefault);
+  const [code, setCode] = useState(codeExamples[0]);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
-  const [theme, setTheme] = useState("cobalt");
+  const [theme, setTheme] = useState("oceanic-next");
   const [language, setLanguage] = useState(languageOptions[0]);
+  const [tabKey, setTabKey] = useState("example_0");
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -62,6 +97,11 @@ const Landing = () => {
     setLanguage(sl);
   };
 
+  const handleEditorChange = (value) => {
+    setCode(value);
+    onChange("code", value);
+  };
+
   useEffect(() => {
     if (enterPress && ctrlPress) {
       console.log("enterPress", enterPress);
@@ -69,6 +109,13 @@ const Landing = () => {
       handleCompile();
     }
   }, [ctrlPress, enterPress]);
+
+  useEffect(() => {
+    const key_index = parseInt(tabKey.substring(8));
+    setCode(codeExamples[key_index]);
+    // onChange('code',codeExamples[key_index] )
+  }, [tabKey]);
+
   const onChange = (action, data) => {
     switch (action) {
       case "code": {
@@ -80,6 +127,9 @@ const Landing = () => {
       }
     }
   };
+
+  const handleGenerate = () => {};
+
   const handleCompile = () => {
     setProcessing(true);
     const formData = {
@@ -117,7 +167,7 @@ const Landing = () => {
           console.log("too many requests", status);
 
           showErrorToast(
-            `Quota of 100 requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
+            `Quota of requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
             10000
           );
         }
@@ -214,7 +264,7 @@ const Landing = () => {
         pauseOnHover
       />
 
-      <a
+      {/* <a
         href="https://github.com/manuarora700/react-code-editor"
         title="Fork me on GitHub"
         class="github-corner"
@@ -241,25 +291,80 @@ const Landing = () => {
             class="octo-body"
           ></path>
         </svg>
-      </a>
+      </a> */}
 
       <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+      <h3 className="px-4 mt-4">Code Generation</h3>
       <div className="flex flex-row">
-        <div className="px-4 py-2">
+        <div className="ml-6 py-2">
           <LanguagesDropdown onSelectChange={onSelectChange} />
         </div>
-        <div className="px-4 py-2">
+        <div className="ml-2 py-2">
           <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
         </div>
       </div>
-      <div className="flex flex-row space-x-4 items-start px-4 py-4">
+      <div className="flex flex-row mt-3">
+        <div className="px-4">
+          <Tabs
+            id="example-tab"
+            defaultActiveKey="example_0"
+            activeKey={tabKey}
+            onSelect={(k) => setTabKey(k)}
+            className="mb-3"
+            fill
+          >
+            <Tab
+              eventKey="example_0"
+              title="Mean Absolute Deviation"
+              default
+            ></Tab>
+            <Tab eventKey="example_1" title="Fibonacci"></Tab>
+            <Tab eventKey="example_2" title="Example 3"></Tab>
+            <Tab eventKey="example_3" title="Example 4"></Tab>
+          </Tabs>
+        </div>
+      </div>
+      <div className="flex flex-row space-x-4 items-start px-4">
         <div className="flex flex-col w-full h-full justify-start items-end">
-          <CodeEditorWindow
+          <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
+            <Editor
+              height="50vh"
+              width={`100%`}
+              language={language?.value || "python"}
+              value={code}
+              theme={theme.value}
+              defaultValue="// some comment"
+              onChange={handleEditorChange}
+            />
+          </div>
+          {/* <CodeEditorWindow
             code={code}
             onChange={onChange}
             language={language?.value}
             theme={theme.value}
-          />
+          /> */}
+          <div className="flex flex-row space-x-1 items-start mt-2">
+            <button
+              onClick={handleGenerate}
+              disabled={!code}
+              className={classnames(
+                "mr-2 border-2 border-black z-10 rounded-md shadow-[3px_3px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processing ? "Processing..." : "Generate"}
+            </button>
+            <button
+              onClick={handleCompile}
+              disabled={!code}
+              className={classnames(
+                "border-2 border-black z-10 rounded-md shadow-[3px_3px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processing ? "Processing..." : "Run"}
+            </button>
+          </div>
         </div>
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
@@ -269,16 +374,6 @@ const Landing = () => {
               customInput={customInput}
               setCustomInput={setCustomInput}
             />
-            <button
-              onClick={handleCompile}
-              disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processing ? "Processing..." : "Compile and Execute"}
-            </button>
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
         </div>

@@ -1,15 +1,27 @@
 export const languageOptions = [
   {
-    id: 63,
-    name: "JavaScript (Node.js 12.14.0)",
-    label: "JavaScript (Node.js 12.14.0)",
-    value: "javascript",
+    id: 71,
+    name: "Python (3.8.1)",
+    label: "Python (3.8.1)",
+    value: "python",
+  },
+  {
+    id: 70,
+    name: "Python (2.7.17)",
+    label: "Python (2.7.17)",
+    value: "python",
   },
   {
     id: 45,
     name: "Assembly (NASM 2.14.02)",
     label: "Assembly (NASM 2.14.02)",
     value: "assembly",
+  },
+  {
+    id: 63,
+    name: "JavaScript (Node.js 12.14.0)",
+    label: "JavaScript (Node.js 12.14.0)",
+    value: "javascript",
   },
   {
     id: 46,
@@ -216,18 +228,6 @@ export const languageOptions = [
     name: "Prolog (GNU Prolog 1.4.5)",
     label: "Prolog (GNU Prolog 1.4.5)",
     value: "prolog",
-  },
-  {
-    id: 70,
-    name: "Python (2.7.17)",
-    label: "Python (2.7.17)",
-    value: "python",
-  },
-  {
-    id: 71,
-    name: "Python (3.8.1)",
-    label: "Python (3.8.1)",
-    value: "python",
   },
   {
     id: 80,
