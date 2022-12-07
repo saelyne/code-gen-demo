@@ -85,6 +85,7 @@ const Landing = () => {
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
+  const [generating, setGenerating] = useState(null);
   const [theme, setTheme] = useState("oceanic-next");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [tabKey, setTabKey] = useState("example_0");
@@ -352,7 +353,7 @@ const Landing = () => {
                 !code ? "opacity-50" : ""
               )}
             >
-              {processing ? "Processing..." : "Generate"}
+              {generating ? "Processing..." : "Generate"}
             </button>
             <button
               onClick={handleCompile}
@@ -369,12 +370,12 @@ const Landing = () => {
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
           <OutputWindow outputDetails={outputDetails} />
-          <div className="flex flex-col items-end">
+          {/* <div className="flex flex-col items-end">
             <CustomInput
               customInput={customInput}
               setCustomInput={setCustomInput}
             />
-          </div>
+          </div> */}
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
         </div>
       </div>

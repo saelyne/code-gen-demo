@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import CustomInput from "./CustomInput";
 
 const OutputWindow = ({ outputDetails }) => {
+  const [customInput, setCustomInput] = useState("");
   const getOutput = () => {
     let statusId = outputDetails?.status?.id;
 
@@ -36,9 +38,16 @@ const OutputWindow = ({ outputDetails }) => {
   return (
     <>
       <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
-        Output
+        Test Cases
       </h1>
-      <div className="w-full h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto">
+
+      <div className="flex flex-col items-end">
+        <CustomInput
+          customInput={customInput}
+          setCustomInput={setCustomInput}
+        />
+      </div>
+      <div className="w-full h-40 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto">
         {outputDetails ? <>{getOutput()}</> : null}
       </div>
     </>
