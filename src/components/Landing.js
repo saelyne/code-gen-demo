@@ -408,8 +408,8 @@ const Landing = () => {
           /> */}
           <div className="flex flex-row space-x-1 items-start mt-2">
             <Button
-              // onClick={handleGenerate}
-              onClick={handleGenerateDemo}
+              onClick={handleGenerate}
+              // onClick={handleGenerateDemo}
               disabled={!code}
               variant="custom"
               // className={classnames(
