@@ -380,15 +380,15 @@ const Landing = () => {
         </svg>
       </a> */}
 
-      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+      {/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
       <h3 className="px-4 mt-4">Code Generation</h3>
       <div className="flex flex-row">
-        <div className="ml-6 py-2">
+        {/* <div className="ml-6 py-2">
           <LanguagesDropdown onSelectChange={onSelectChange} />
-        </div>
-        <div className="ml-2 py-2">
+        </div> */}
+        {/* <div className="ml-2 py-2">
           <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-row mt-3">
         <div className="px-4">
@@ -406,8 +406,8 @@ const Landing = () => {
               default
             ></Tab>
             <Tab eventKey="example_1" title="Fibonacci"></Tab>
-            <Tab eventKey="example_2" title="Sum"></Tab>
-            <Tab eventKey="example_3" title="Dynamic Programming"></Tab>
+            <Tab eventKey="example_2" title="IsPrime"></Tab>
+            <Tab eventKey="example_3" title="Try on"></Tab>
           </Tabs>
         </div>
       </div>
@@ -415,13 +415,22 @@ const Landing = () => {
         <div className="flex flex-col w-full h-full justify-start items-end">
           <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
             <Editor
-              height="50vh"
+              height="70vh"
               width={`100%`}
               language={language?.value || "python"}
               value={code}
               theme={theme.value}
               defaultValue="// some comment"
               onChange={handleEditorChange}
+              options={{
+                fontSize: 15,
+                padding: { top : 50},
+                minimap: { enabled: false },
+                scrollbar: {
+                  vertical: 'auto',
+                  horizontal: 'auto'
+                }
+              }}
             />
           </div>
           {/* <CodeEditorWindow
@@ -449,16 +458,7 @@ const Landing = () => {
             <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2 mt-2">
               Test Cases
             </h1>
-            <button
-              onClick={handleCompile}
-              disabled={!code}
-              className={classnames(
-                "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processing ? "Processing..." : "Run"}
-            </button>
+            
 
             {/* <Button variant="success">
               {processing ? "Processing..." : "Run"}
@@ -466,7 +466,7 @@ const Landing = () => {
           </div>
           <div className="flex gap-x-2  mb-2">
             <Button
-              variant="warning"
+              variant="success"
               value="0"
               onClick={(e) => handleSetInput(e)}
             >
@@ -492,6 +492,16 @@ const Landing = () => {
             customInput={customInput}
             setCustomInput={setCustomInput}
           />
+          <button
+              onClick={handleCompile}
+              disabled={!code}
+              className={classnames(
+                "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processing ? "Processing..." : "Run"}
+            </button>
           {/* <div className="flex flex-col items-end">
             <CustomInput
               customInput={customInput}

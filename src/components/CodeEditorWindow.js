@@ -20,6 +20,14 @@ const CodeEditorWindow = ({ onChange, language, code, theme }) => {
         theme={theme}
         defaultValue="// some comment"
         onChange={handleEditorChange}
+        options={{
+          fontSize: 15,
+          minimap: { enabled: false },
+          scrollbar: {
+            vertical: 'auto',
+            horizontal: 'auto'
+          }
+        }}
       />
     </div>
   );
