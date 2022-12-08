@@ -65,50 +65,65 @@ ans = fib(int(input()))
 print (ans)
 `;
 
+const example_code_2 = `\ndef toList(string):
+  li = list(string[1:-1].split(","))
+  numbers = [int(i) for i in li]
+  return numbers
+
+def mean_absolute_deviation(numbers):
+  """ For a given list of input numbers, calculate Mean Absolute Deviation
+  around the mean of this dataset.
+  Mean Absolute Deviation is the average absolute difference between each
+  element and a centerpoint (mean in this case):
+  MAD = average | x - x_mean |
+  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+  1.0
+  """
+  mean = sum(numbers) / len(numbers)
+  sum_abs_diff = 0
+  for x in numbers:
+      sum_abs_diff += abs(x - mean)
+  return sum_abs_diff / len(numbers)
+
+ans = mean_absolute_deviation(toList(input()))
+print (ans)
+
+`;
+
+const example_code_3 = `\ndef fib(n: int):
+  """Return n-th Fibonacci number.
+  >>> fib(10)
+  55
+  >>> fib(1)
+  1
+  >>> fib(8)
+  21
+  """
+  if n < 2:
+    return n
+  return fib(n-1) + fib(n-2)
+
+ans = fib(int(input()))
+print (ans)
+`;
+
 const input_examples_0 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
 const input_examples_1 = [3, 5, 10];
+const input_examples_2 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
+const input_examples_3 = [3, 5, 10];
 
-// const example_code_2 = `\n def fib(n: int):
-//   """Return n-th Fibonacci number.
-//   >>> fib(10)
-//   55
-//   >>> fib(1)
-//   1
-//   >>> fib(8)
-//   21
-//   """
-//   if n < 2:
-//       return n
-//   return fib(n-1) + fib(n-2)`;
-
-// const example_code_3 = `\n def mean_absolute_deviation(numbers: List[float]) -> float:
-// """ For a given list of input numbers, calculate Mean Absolute Deviation
-// around the mean of this dataset.
-// Mean Absolute Deviation is the average absolute difference between each
-// element and a centerpoint (mean in this case):
-// MAD = average | x - x_mean |
-// >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-// 1.0
-// """
-// mean = sum(numbers) / len(numbers)
-// sum_abs_diff = 0
-// for x in numbers:
-//     sum_abs_diff += abs(x - mean)
-// return sum_abs_diff / len(numbers)
-// `;
-
-// const example_code_4 = `\n def fib(n: int):
-//   """Return n-th Fibonacci number.
-//   >>> fib(10)
-//   55
-//   >>> fib(1)
-//   1
-//   >>> fib(8)
-//   21
-//   """
-//   if n < 2:
-//       return n
-//   return fib(n-1) + fib(n-2)`;
+const code_examples = [
+  example_code_0,
+  example_code_1,
+  example_code_2,
+  example_code_3,
+];
+const input_examples = [
+  input_examples_0,
+  input_examples_1,
+  input_examples_2,
+  input_examples_3,
+];
 
 const Landing = () => {
   const [code, setCode] = useState(codeExamples[0]);
@@ -159,22 +174,46 @@ const Landing = () => {
     }
   };
 
+  const handleGenerateDemo = () => {
+    const key_index = parseInt(tabKey.substring(8));
+    setCode(code_examples[key_index]);
+  };
+
   const handleGenerate = () => {
-    if (tabKey == "example_1") {
-      setCode(example_code_1);
-    } else {
-      setCode(example_code_0);
-    }
+    const options = {
+      method: "POST",
+      url: process.env.REACT_APP_SERVER_URL,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "content-type": "application/json",
+        "Content-Type": "application/json",
+      },
+      data: { prompt: code },
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log("res.data", response.data);
+        // const token = response.data.token;
+        console.log(response.data.output[0]);
+        _code = response.data.output[0]["truncated_output"];
+        setCode(_code);
+
+        // checkStatus(token);
+      })
+      .catch((err) => {
+        console.log(err);
+        let error = err.response ? err.response.data : err;
+        // get error status
+        console.log(error);
+      });
   };
 
   const handleSetInput = (e) => {
+    const key_index = parseInt(tabKey.substring(8));
     const input_case_index = parseInt(e.target.value);
-    if (tabKey == "example_1") {
-      setCustomInput(input_examples_1[input_case_index]);
-    } else {
-      setCustomInput(input_examples_0[input_case_index]);
-    }
-    // setCustomInput("[1,2,3]");
+    setCustomInput(input_examples[key_index][input_case_index]);
   };
 
   const handleCompile = () => {
