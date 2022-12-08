@@ -22,8 +22,8 @@ import Editor from "@monaco-editor/react";
 import Button from "react-bootstrap/Button";
 import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
-import { inputExamples } from "../constants/inputExamples";
 import { completeCodeExamples } from "../constants/completeCodeExamples";
+import { inputExamples } from "../constants/inputExamples";
 
 const Landing = () => {
   const [code, setCode] = useState(codeExamples[0]);
@@ -77,10 +77,27 @@ const Landing = () => {
   const handleGenerateDemo = () => {
     const key_index = parseInt(tabKey.substring(8));
     setCode(completeCodeExamples[key_index]);
+    // const function_start_idx = code.lastIndexOf("def ");
+    // const function_last_idx = code.lastIndexOf('"""');
+    // const before_snippet = code.substring(0, function_start_idx);
+    // const after_snippet = code.substring(function_last_idx);
+    // const function_snippet = code.substring(
+    //   function_start_idx,
+    //   function_last_idx
+    // );
+    // console.log(before_snippet + function_snippet + after_snippet);
   };
 
   const handleGenerate = () => {
     setGenerating(true);
+    const function_start_idx = code.lastIndexOf("def ");
+    const function_last_idx = code.lastIndexOf('"""');
+    const before_snippet = code.substring(0, function_start_idx);
+    const after_snippet = code.substring(function_last_idx);
+    const function_snippet = code.substring(
+      function_start_idx,
+      function_last_idx
+    );
     const options = {
       method: "POST",
       url: process.env.REACT_APP_SERVER_URL,
@@ -89,7 +106,7 @@ const Landing = () => {
         "content-type": "application/json",
         "Content-Type": "application/json",
       },
-      data: { prompt: code },
+      data: { prompt: function_snippet },
     };
 
     axios
@@ -99,7 +116,11 @@ const Landing = () => {
         // const token = response.data.token;
         // console.log("0!!",response.data.output[0].truncated_output);
         var _code;
-        _code = code + response.data.output[0].truncated_output;
+        _code =
+          before_snippet +
+          function_snippet +
+          response.data.output[0].truncated_output +
+          after_snippet;
         setCode(_code);
         setGenerating(false);
       })

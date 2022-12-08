@@ -1,32 +1,21 @@
-const example_code_1 = `
-def greatest_common_divisor(a: int, b: int) -> int:
-    """ Return a greatest common divisor of two integers a and b
-    >>> greatest_common_divisor(3, 5)
-    1
-    >>> greatest_common_divisor(25, 15)
-    5
-    """
+const example_code_1 = `\ndef toList(string):
+  li = list(string[1:-1].split(","))
+  numbers = [int(i) for i in li]
+  return numbers
+
+def mean_absolute_deviation(numbers):
+  """ For a given list of input numbers, calculate Mean Absolute Deviation
+  around the mean of this dataset.
+  Mean Absolute Deviation is the average absolute difference between each
+  element and a centerpoint (mean in this case):
+  MAD = average | x - x_mean |
+  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+  1.0
+  """
+
+ans = mean_absolute_deviation(toList(input()))
+print (ans)
 `;
-
-// const example_code_1 = `\ndef toList(string):
-//   li = list(string[1:-1].split(","))
-//   numbers = [int(i) for i in li]
-//   return numbers
-
-// def mean_absolute_deviation(numbers):
-//   """ For a given list of input numbers, calculate Mean Absolute Deviation
-//   around the mean of this dataset.
-//   Mean Absolute Deviation is the average absolute difference between each
-//   element and a centerpoint (mean in this case):
-//   MAD = average | x - x_mean |
-//   >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-//   1.0
-//   """
-
-// ans = mean_absolute_deviation(toList(input()))
-// print (ans)
-// `;
-
 
 const example_code_2 = `\ndef fib(n: int):
   """Return n-th Fibonacci number.
