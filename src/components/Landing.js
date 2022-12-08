@@ -18,10 +18,11 @@ import LanguagesDropdown from "./LanguagesDropdown";
 
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import "../App.css";
-import { codeExamples } from "../constants/codeExamples";
 import Editor from "@monaco-editor/react";
 import Button from "react-bootstrap/Button";
+import "../App.css";
+import { codeExamples } from "../constants/codeExamples";
+import {inputExamples } from "../constants/inputExamples";
 
 const example_code_0 = `\ndef toList(string):
   li = list(string[1:-1].split(","))
@@ -180,6 +181,7 @@ const Landing = () => {
   };
 
   const handleGenerate = () => {
+    setGenerating(true);
     const options = {
       method: "POST",
       url: process.env.REACT_APP_SERVER_URL,
@@ -196,17 +198,17 @@ const Landing = () => {
       .then(function (response) {
         console.log("res.data", response.data);
         // const token = response.data.token;
-        console.log(response.data.output[0]);
-        _code = response.data.output[0]["truncated_output"];
+        // console.log("0!!",response.data.output[0].truncated_output);
+        var _code
+        _code = code +response.data.output[0].truncated_output;
         setCode(_code);
-
-        // checkStatus(token);
+        setGenerating(false);
       })
       .catch((err) => {
-        console.log(err);
         let error = err.response ? err.response.data : err;
         // get error status
         console.log(error);
+        setGenerating(false);
       });
   };
 
@@ -251,7 +253,6 @@ const Landing = () => {
         console.log("status", status);
         if (status === 429) {
           console.log("too many requests", status);
-
           showErrorToast(
             `Quota of requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
             10000
@@ -401,7 +402,7 @@ const Landing = () => {
           >
             <Tab
               eventKey="example_0"
-              title="Mean Absolute Deviation"
+              title="Greatest Common Devisor"
               default
             ></Tab>
             <Tab eventKey="example_1" title="Fibonacci"></Tab>
