@@ -448,8 +448,8 @@ const Landing = () => {
           </div>
           {/* <Form.Label htmlFor="basic-url">Your vanity URL</Form.Label> */}
           <InputGroup className="mb-2">
-            <InputGroup.Text id="input-field-text">
-              Input Value{"  "}
+            <InputGroup.Text id="input-field-text" className="w-40">
+              &nbsp;&nbsp;Input Value
             </InputGroup.Text>
             <Form.Control
               id="input-field"
@@ -459,8 +459,8 @@ const Landing = () => {
             />
           </InputGroup>
           <InputGroup className="mb-2">
-            <InputGroup.Text id="expected-output-field-text">
-              Expected Value
+            <InputGroup.Text id="expected-output-field-text" className="w-40">
+              &nbsp;&nbsp;Expected Value
             </InputGroup.Text>
             <Form.Control
               id="expected-output-field"
