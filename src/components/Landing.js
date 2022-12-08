@@ -274,7 +274,7 @@ const Landing = () => {
   return (
     <>
       <style type="text/css">{`.btn-custom {
-          background-color: purple;
+          background-color: #ec297b;
           color: white;
       }`}</style>
 
@@ -329,6 +329,16 @@ const Landing = () => {
           <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
         </div> */}
       </div>
+      <style type="text/css">{`.nav-tabs .nav-item .nav-link {
+                  color: #24305e;                          
+              }
+                          
+               .nav-link {
+                color: #24305e;         
+            }
+            .nav-tabs .nav-item .nav-link.active {
+              color: #ec297b;
+            }`}</style>
       <div className="flex flex-row mt-3">
         <div className="px-4">
           <Tabs
@@ -338,6 +348,7 @@ const Landing = () => {
             onSelect={(k) => setTabKey(k)}
             className="mb-3"
             fill
+            varient="custom"
           >
             <Tab
               eventKey="example_0"
@@ -345,8 +356,8 @@ const Landing = () => {
               default
             ></Tab>
             <Tab eventKey="example_1" title="Fibonacci"></Tab>
-            <Tab eventKey="example_2" title="IsPrime"></Tab>
-            <Tab eventKey="example_3" title="Try on"></Tab>
+            <Tab varient="custom" eventKey="example_2" title="IsPrime"></Tab>
+            <Tab varient="custom" eventKey="example_3" title="Try on"></Tab>
           </Tabs>
         </div>
       </div>
