@@ -22,109 +22,8 @@ import Editor from "@monaco-editor/react";
 import Button from "react-bootstrap/Button";
 import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
-import {inputExamples } from "../constants/inputExamples";
-
-const example_code_0 = `\ndef toList(string):
-  li = list(string[1:-1].split(","))
-  numbers = [int(i) for i in li]
-  return numbers
-
-def mean_absolute_deviation(numbers):
-  """ For a given list of input numbers, calculate Mean Absolute Deviation
-  around the mean of this dataset.
-  Mean Absolute Deviation is the average absolute difference between each
-  element and a centerpoint (mean in this case):
-  MAD = average | x - x_mean |
-  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-  1.0
-  """
-  mean = sum(numbers) / len(numbers)
-  sum_abs_diff = 0
-  for x in numbers:
-      sum_abs_diff += abs(x - mean)
-  return sum_abs_diff / len(numbers)
-
-ans = mean_absolute_deviation(toList(input()))
-print (ans)
-
-`;
-
-const example_code_1 = `\ndef fib(n: int):
-  """Return n-th Fibonacci number.
-  >>> fib(10)
-  55
-  >>> fib(1)
-  1
-  >>> fib(8)
-  21
-  """
-  if n < 2:
-    return n
-  return fib(n-1) + fib(n-2)
-
-ans = fib(int(input()))
-print (ans)
-`;
-
-const example_code_2 = `\ndef toList(string):
-  li = list(string[1:-1].split(","))
-  numbers = [int(i) for i in li]
-  return numbers
-
-def mean_absolute_deviation(numbers):
-  """ For a given list of input numbers, calculate Mean Absolute Deviation
-  around the mean of this dataset.
-  Mean Absolute Deviation is the average absolute difference between each
-  element and a centerpoint (mean in this case):
-  MAD = average | x - x_mean |
-  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-  1.0
-  """
-  mean = sum(numbers) / len(numbers)
-  sum_abs_diff = 0
-  for x in numbers:
-      sum_abs_diff += abs(x - mean)
-  return sum_abs_diff / len(numbers)
-
-ans = mean_absolute_deviation(toList(input()))
-print (ans)
-
-`;
-
-const example_code_3 = `\ndef fib(n: int):
-  """Return n-th Fibonacci number.
-  >>> fib(10)
-  55
-  >>> fib(1)
-  1
-  >>> fib(8)
-  21
-  """
-  if n < 2:
-    return n
-  return fib(n-1) + fib(n-2)
-
-ans = fib(int(input()))
-print (ans)
-`;
-
-const input_examples_0 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
-const input_examples_1 = [3, 5, 10];
-const input_examples_2 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
-const input_examples_3 = [3, 5, 10];
-
-const code_examples = [
-  example_code_0,
-  example_code_1,
-  example_code_2,
-  example_code_3,
-];
-const input_examples = [
-  input_examples_0,
-  input_examples_1,
-  input_examples_2,
-  input_examples_3,
-];
+import { inputExamples } from "../constants/inputExamples";
+import { completeCodeExamples } from "../constants/completeCodeExamples";
 
 const Landing = () => {
   const [code, setCode] = useState(codeExamples[0]);
@@ -177,7 +76,7 @@ const Landing = () => {
 
   const handleGenerateDemo = () => {
     const key_index = parseInt(tabKey.substring(8));
-    setCode(code_examples[key_index]);
+    setCode(completeCodeExamples[key_index]);
   };
 
   const handleGenerate = () => {
@@ -199,8 +98,8 @@ const Landing = () => {
         console.log("res.data", response.data);
         // const token = response.data.token;
         // console.log("0!!",response.data.output[0].truncated_output);
-        var _code
-        _code = code +response.data.output[0].truncated_output;
+        var _code;
+        _code = code + response.data.output[0].truncated_output;
         setCode(_code);
         setGenerating(false);
       })
@@ -215,7 +114,7 @@ const Landing = () => {
   const handleSetInput = (e) => {
     const key_index = parseInt(tabKey.substring(8));
     const input_case_index = parseInt(e.target.value);
-    setCustomInput(input_examples[key_index][input_case_index]);
+    setCustomInput(inputExamples[key_index][input_case_index]);
   };
 
   const handleCompile = () => {
