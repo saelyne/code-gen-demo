@@ -280,10 +280,10 @@ const Landing = () => {
         }
 
         .btn-custom:hover {
-          // border: #ec297b 1px solid;
+          border: #ec297b 1px solid;
           // box-shadow: 0 0 0 2px #edbed2 inset; 
-          background-color: #ff80b5;
-          color: white
+          // background-color: #ff80b5;
+          color: #24305e;
         }
       `}</style>
 
@@ -449,7 +449,7 @@ const Landing = () => {
           {/* <Form.Label htmlFor="basic-url">Your vanity URL</Form.Label> */}
           <InputGroup className="mb-2">
             <InputGroup.Text id="input-field-text">
-              Input Value{"  "}
+              Input Value &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </InputGroup.Text>
             <Form.Control
               id="input-field"
