@@ -273,10 +273,19 @@ const Landing = () => {
 
   return (
     <>
-      <style type="text/css">{`.btn-custom {
+      <style type="text/css">{`
+        .btn-custom {
           background-color: #ec297b;
           color: white;
-      }`}</style>
+        }
+
+        .btn-custom:hover {
+          // border: #ec297b 1px solid;
+          // box-shadow: 0 0 0 2px #edbed2 inset; 
+          background-color: #ff80b5;
+          color: white
+        }
+      `}</style>
 
       <ToastContainer
         position="top-right"
