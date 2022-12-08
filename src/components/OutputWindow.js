@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import CustomInput from "./CustomInput";
 
-const OutputWindow = ({ outputDetails }) => {
-  const [customInput, setCustomInput] = useState("");
+const OutputWindow = ({ outputDetails, customInput, setCustomInput }) => {
+  // const [customInput, setCustomInput] = useState("");
   const getOutput = () => {
     let statusId = outputDetails?.status?.id;
 
@@ -37,10 +37,6 @@ const OutputWindow = ({ outputDetails }) => {
   };
   return (
     <>
-      <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
-        Test Cases
-      </h1>
-
       <div className="flex flex-col items-end">
         <CustomInput
           customInput={customInput}

@@ -22,21 +22,30 @@ import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
 import Editor from "@monaco-editor/react";
 
-// const example_code_1 = `\n def mean_absolute_deviation(numbers: List[float]) -> float:
-//   """ For a given list of input numbers, calculate Mean Absolute Deviation
-//   around the mean of this dataset.
-//   Mean Absolute Deviation is the average absolute difference between each
-//   element and a centerpoint (mean in this case):
-//   MAD = average | x - x_mean |
-//   >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-//   1.0
-//   """
-//   mean = sum(numbers) / len(numbers)
-//   sum_abs_diff = 0
-//   for x in numbers:
-//       sum_abs_diff += abs(x - mean)
-//   return sum_abs_diff / len(numbers)
-// `;
+const example_code_1 = `\ndef toList(string):
+  li = list(string[1:-1].split(","))
+  numbers = [int(i) for i in li]
+  return numbers
+
+def mean_absolute_deviation(numbers):
+  """ For a given list of input numbers, calculate Mean Absolute Deviation
+  around the mean of this dataset.
+  Mean Absolute Deviation is the average absolute difference between each
+  element and a centerpoint (mean in this case):
+  MAD = average | x - x_mean |
+  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+  1.0
+  """
+  mean = sum(numbers) / len(numbers)
+  sum_abs_diff = 0
+  for x in numbers:
+      sum_abs_diff += abs(x - mean)
+  return sum_abs_diff / len(numbers)
+
+ans = mean_absolute_deviation(toList(input()))
+print (ans)
+
+`;
 
 // const example_code_2 = `\n def fib(n: int):
 //   """Return n-th Fibonacci number.
@@ -129,7 +138,9 @@ const Landing = () => {
     }
   };
 
-  const handleGenerate = () => {};
+  const handleGenerate = () => {
+    setCode(example_code_1);
+  };
 
   const handleCompile = () => {
     setProcessing(true);
@@ -320,8 +331,8 @@ const Landing = () => {
               default
             ></Tab>
             <Tab eventKey="example_1" title="Fibonacci"></Tab>
-            <Tab eventKey="example_2" title="Example 3"></Tab>
-            <Tab eventKey="example_3" title="Example 4"></Tab>
+            <Tab eventKey="example_2" title="Sum"></Tab>
+            <Tab eventKey="example_3" title="Dynamic Programming"></Tab>
           </Tabs>
         </div>
       </div>
@@ -349,27 +360,36 @@ const Landing = () => {
               onClick={handleGenerate}
               disabled={!code}
               className={classnames(
-                "mr-2 border-2 border-black z-10 rounded-md shadow-[3px_3px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                "mr-2 border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
                 !code ? "opacity-50" : ""
               )}
             >
               {generating ? "Processing..." : "Generate"}
             </button>
+          </div>
+        </div>
+
+        <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
+          <div className="flex flex-row justify-between mb-2">
+            <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2 mt-2">
+              Test Cases
+            </h1>
             <button
               onClick={handleCompile}
               disabled={!code}
               className={classnames(
-                "border-2 border-black z-10 rounded-md shadow-[3px_3px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
                 !code ? "opacity-50" : ""
               )}
             >
               {processing ? "Processing..." : "Run"}
             </button>
           </div>
-        </div>
-
-        <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
-          <OutputWindow outputDetails={outputDetails} />
+          <OutputWindow
+            outputDetails={outputDetails}
+            customInput={customInput}
+            setCustomInput={setCustomInput}
+          />
           {/* <div className="flex flex-col items-end">
             <CustomInput
               customInput={customInput}
