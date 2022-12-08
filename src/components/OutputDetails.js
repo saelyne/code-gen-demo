@@ -5,9 +5,9 @@ const OutputDetails = ({ outputDetails, isCorrect }) => {
     <div className="metrics-container mt-4 flex flex-col space-y-3">
       <div>
         {isCorrect ? (
-          <span style={{ color: "ec297b" }}>Correct!</span>
+          <span style={{ color: "#ec297b", fontWeight:"bold" }}>Correct!</span>
         ) : (
-          <span style={{ color: "#2b388f" }}>Wrong Answer</span>
+          <span style={{ color: "#2b388f", fontWeight:"bold" }}>Wrong Answer</span>
         )}
       </div>
       <p className="text-sm">

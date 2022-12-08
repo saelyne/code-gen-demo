@@ -4,9 +4,9 @@ const example_code_1 = `def greatest_common_divisor(a: int, b: int) -> int:
     1
     >>> greatest_common_divisor(25, 15)
     5
-    """`;
+    """\n`;
 
-const example_code_2 = `\ndef fib(n: int):
+const example_code_2 = `def fib(n: int):
     """Return n-th Fibonacci number.
     >>> fib(10)
     55
@@ -34,10 +34,11 @@ const example_code_3 = `def is_prime(n):
     False
     """`;
 
-const example_code_4 = `def surprise_me():
-    """
-    I want to get the exact number of pi.
-    """`;
+const example_code_4 = `def solution(n):
+    """You are climbing a staircase. It takes n steps to reach the top.
+    Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+    solution(2) = 2
+    solution(3) = 3"""`;
 
 export const codeExamples = [
   example_code_1,

@@ -67,6 +67,7 @@ const Landing = () => {
   useEffect(() => {
     const key_index = parseInt(tabKey.substring(8));
     setCode(codeExamples[key_index]);
+    setTabKeyIdx(key_index);
     // onChange('code',codeExamples[key_index] )
   }, [tabKey]);
 
@@ -82,9 +83,16 @@ const Landing = () => {
     }
   };
 
+  const generatingDemo = () => {
+    setCode(completeCodeExamples[tabKeyIdx]);
+    setGenerating(false);
+  }
+
   const handleGenerateDemo = () => {
-    const key_index = parseInt(tabKey.substring(8));
-    setCode(completeCodeExamples[key_index]);
+    // const key_index = parseInt(tabKey.substring(8));
+    setGenerating(true);
+    setTimeout(() =>
+    generatingDemo(), 2000);
     // const function_start_idx = code.lastIndexOf("def ");
     // const function_last_idx = code.lastIndexOf('"""');
     // const before_snippet = code.substring(0, function_start_idx);
@@ -365,8 +373,8 @@ const Landing = () => {
               default
             ></Tab>
             <Tab eventKey="example_1" title="Fibonacci"></Tab>
-            <Tab varient="custom" eventKey="example_2" title="IsPrime"></Tab>
-            <Tab varient="custom" eventKey="example_3" title="Try on"></Tab>
+            <Tab varient="custom" eventKey="example_2" title="Is Prime"></Tab>
+            <Tab varient="custom" eventKey="example_3" title="Climbing Stair"></Tab>
           </Tabs>
         </div>
       </div>
@@ -400,7 +408,8 @@ const Landing = () => {
           /> */}
           <div className="flex flex-row space-x-1 items-start mt-2">
             <Button
-              onClick={handleGenerate}
+              // onClick={handleGenerate}
+              onClick={handleGenerateDemo}
               disabled={!code}
               variant="custom"
               // className={classnames(
@@ -448,8 +457,8 @@ const Landing = () => {
           </div>
           {/* <Form.Label htmlFor="basic-url">Your vanity URL</Form.Label> */}
           <InputGroup className="mb-2">
-            <InputGroup.Text id="input-field-text">
-              Input Value &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <InputGroup.Text id="input-field-text" className="w-40">
+              &nbsp;&nbsp;Input Value
             </InputGroup.Text>
             <Form.Control
               id="input-field"
@@ -459,8 +468,8 @@ const Landing = () => {
             />
           </InputGroup>
           <InputGroup className="mb-2">
-            <InputGroup.Text id="expected-output-field-text">
-              Expected Value
+            <InputGroup.Text id="expected-output-field-text" className="w-40">
+              &nbsp;&nbsp;Expected Value
             </InputGroup.Text>
             <Form.Control
               id="expected-output-field"
