@@ -13,8 +13,7 @@ def mean_absolute_deviation(numbers):
   1.0
   """
 
-arr = toList(input())
-ans = mean_absolute_deviation(arr)
+ans = mean_absolute_deviation(toList(input()))
 print (ans)
 `;
 
@@ -26,7 +25,10 @@ const example_code_2 = `\ndef fib(n: int):
   1
   >>> fib(8)
   21
-  """`;
+  """
+  
+ans = fib(int(input()))
+print (ans)`;
 
 const example_code_3 = `\ndef mean_absolute_deviation(numbers: List[float]) -> float:
   """ For a given list of input numbers, calculate Mean Absolute Deviation

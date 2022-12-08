@@ -21,8 +21,9 @@ import Tabs from "react-bootstrap/Tabs";
 import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
 import Editor from "@monaco-editor/react";
+import Button from "react-bootstrap/Button";
 
-const example_code_1 = `\ndef toList(string):
+const example_code_0 = `\ndef toList(string):
   li = list(string[1:-1].split(","))
   numbers = [int(i) for i in li]
   return numbers
@@ -46,6 +47,26 @@ ans = mean_absolute_deviation(toList(input()))
 print (ans)
 
 `;
+
+const example_code_1 = `\ndef fib(n: int):
+  """Return n-th Fibonacci number.
+  >>> fib(10)
+  55
+  >>> fib(1)
+  1
+  >>> fib(8)
+  21
+  """
+  if n < 2:
+    return n
+  return fib(n-1) + fib(n-2)
+
+ans = fib(int(input()))
+print (ans)
+`;
+
+const input_examples_0 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
+const input_examples_1 = [3, 5, 10];
 
 // const example_code_2 = `\n def fib(n: int):
 //   """Return n-th Fibonacci number.
@@ -139,7 +160,21 @@ const Landing = () => {
   };
 
   const handleGenerate = () => {
-    setCode(example_code_1);
+    if (tabKey == "example_1") {
+      setCode(example_code_1);
+    } else {
+      setCode(example_code_0);
+    }
+  };
+
+  const handleSetInput = (e) => {
+    const input_case_index = parseInt(e.target.value);
+    if (tabKey == "example_1") {
+      setCustomInput(input_examples_1[input_case_index]);
+    } else {
+      setCustomInput(input_examples_0[input_case_index]);
+    }
+    // setCustomInput("[1,2,3]");
   };
 
   const handleCompile = () => {
@@ -370,7 +405,7 @@ const Landing = () => {
         </div>
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
-          <div className="flex flex-row justify-between mb-2">
+          <div className="flex flex-row justify-between">
             <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2 mt-2">
               Test Cases
             </h1>
@@ -384,6 +419,33 @@ const Landing = () => {
             >
               {processing ? "Processing..." : "Run"}
             </button>
+
+            {/* <Button variant="success">
+              {processing ? "Processing..." : "Run"}
+            </Button> */}
+          </div>
+          <div className="flex gap-x-2  mb-2">
+            <Button
+              variant="warning"
+              value="0"
+              onClick={(e) => handleSetInput(e)}
+            >
+              Case 1
+            </Button>
+            <Button
+              variant="warning"
+              value="1"
+              onClick={(e) => handleSetInput(e)}
+            >
+              Case 2
+            </Button>
+            <Button
+              variant="warning"
+              value="2"
+              onClick={(e) => handleSetInput(e)}
+            >
+              Case 3
+            </Button>
           </div>
           <OutputWindow
             outputDetails={outputDetails}
