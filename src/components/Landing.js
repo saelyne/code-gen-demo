@@ -24,6 +24,7 @@ import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
 import { completeCodeExamples } from "../constants/completeCodeExamples";
 import { inputExamples } from "../constants/inputExamples";
+import { functionNames } from "../constants/functionNames";
 
 const Landing = () => {
   const [code, setCode] = useState(codeExamples[0]);
@@ -34,6 +35,8 @@ const Landing = () => {
   const [theme, setTheme] = useState("oceanic-next");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [tabKey, setTabKey] = useState("example_0");
+  const [tabKeyIdx, setTabKeyIdx] = useState(0);
+  const [inputIdx, setInputIdx] = useState(0);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -90,14 +93,6 @@ const Landing = () => {
 
   const handleGenerate = () => {
     setGenerating(true);
-    const function_start_idx = code.lastIndexOf("def ");
-    const function_last_idx = code.lastIndexOf('"""');
-    const before_snippet = code.substring(0, function_start_idx);
-    const after_snippet = code.substring(function_last_idx);
-    const function_snippet = code.substring(
-      function_start_idx,
-      function_last_idx
-    );
     const options = {
       method: "POST",
       url: process.env.REACT_APP_SERVER_URL,
@@ -106,7 +101,7 @@ const Landing = () => {
         "content-type": "application/json",
         "Content-Type": "application/json",
       },
-      data: { prompt: function_snippet },
+      data: { prompt: code },
     };
 
     axios
@@ -116,11 +111,7 @@ const Landing = () => {
         // const token = response.data.token;
         // console.log("0!!",response.data.output[0].truncated_output);
         var _code;
-        _code =
-          before_snippet +
-          function_snippet +
-          response.data.output[0].truncated_output +
-          after_snippet;
+        _code = code + response.data.output[0].truncated_output;
         setCode(_code);
         setGenerating(false);
       })
@@ -135,15 +126,18 @@ const Landing = () => {
   const handleSetInput = (e) => {
     const key_index = parseInt(tabKey.substring(8));
     const input_case_index = parseInt(e.target.value);
+    setInputIdx(input_case_index);
     setCustomInput(inputExamples[key_index][input_case_index]);
   };
 
   const handleCompile = () => {
     setProcessing(true);
+    const key_index = parseInt(tabKey.substring(8));
+    const print_snippet = `\nprint (${functionNames[key_index]}(${customInput}))`;
     const formData = {
       language_id: language.id,
       // encode source code in base64
-      source_code: btoa(code),
+      source_code: btoa(code + print_snippet),
       stdin: btoa(customInput),
     };
     const options = {

@@ -26,9 +26,7 @@ const example_code_2 = `\ndef fib(n: int):
   >>> fib(8)
   21
   """
-  
-ans = fib(int(input()))
-print (ans)`;
+  `;
 
 const example_code_3 = `\ndef mean_absolute_deviation(numbers: List[float]) -> float:
   """ For a given list of input numbers, calculate Mean Absolute Deviation
