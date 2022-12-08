@@ -253,6 +253,13 @@ const Landing = () => {
 
   return (
     <>
+    <style type="text/css">{
+      `.btn-custom {
+          background-color: purple;
+          color: white;
+      }`
+    }</style>
+
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -325,7 +332,7 @@ const Landing = () => {
           </Tabs>
         </div>
       </div>
-      <div className="flex flex-row space-x-7 items-start px-4">
+      <div className="flex flex-row space-x-7 items-start px-4 mr-8">
         <div className="flex flex-col w-full h-full justify-start items-end">
           <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
             <Editor
@@ -354,16 +361,17 @@ const Landing = () => {
             theme={theme.value}
           /> */}
           <div className="flex flex-row space-x-1 items-start mt-2">
-            <button
+            <Button
               onClick={handleGenerate}
               disabled={!code}
-              className={classnames(
-                "mr-2 border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
+              variant="custom"
+              // className={classnames(
+              //   "mr-2 border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              //   !code ? "opacity-50" : ""
+              // )}
             >
               {generating ? "Processing..." : "Generate"}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -380,21 +388,21 @@ const Landing = () => {
           </div>
           <div className="flex gap-x-2  mb-2">
             <Button
-              variant="primary"
+              variant="custom"
               value="0"
               onClick={(e) => handleSetInput(e)}
             >
               Case 1
             </Button>
             <Button
-              variant="primary"
+              variant="custom"
               value="1"
               onClick={(e) => handleSetInput(e)}
             >
               Case 2
             </Button>
             <Button
-              variant="primary"
+              variant="custom"
               value="2"
               onClick={(e) => handleSetInput(e)}
             >
@@ -402,28 +410,29 @@ const Landing = () => {
             </Button>
           </div>
           <OutputWindow
-            // outputDetails={outputDetails}
+            outputDetails={outputDetails}
             customInput={customInput}
             setCustomInput={setCustomInput}
           />
-          <button
+          <Button
               onClick={handleCompile}
               disabled={!code}
-              // variant="primary"
-              className={classnames(
-                "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
+              variant="custom"
+              className="mt-2" 
+              // className={classnames(
+              //   "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0 mt-4",
+              //   !code ? "opacity-50" : ""
+              // )}
             >
               {processing ? "Processing..." : "Run"}
-            </button>
+            </Button>
           {/* <div className="flex flex-col items-end">
             <CustomInput
               customInput={customInput}
               setCustomInput={setCustomInput}
             />
           </div> */}
-          {outputDetails && <OutputDetails outputDetails={outputDetails} />}
+          {/* {outputDetails && <OutputDetails outputDetails={outputDetails} />} */}
         </div>
       </div>
       <Footer />
