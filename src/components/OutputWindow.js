@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomInput from "./CustomInput";
 
-const OutputWindow = ({ outputDetails, customInput, setCustomInput }) => {
+const OutputWindow = ({ outputDetails }) => {
   // const [customInput, setCustomInput] = useState("");
   const getOutput = () => {
     let statusId = outputDetails?.status?.id;
@@ -37,12 +37,12 @@ const OutputWindow = ({ outputDetails, customInput, setCustomInput }) => {
   };
   return (
     <>
-      <div className="flex flex-col items-end">
+      {/* <div className="flex flex-col items-end">
         <CustomInput
           customInput={customInput}
           setCustomInput={setCustomInput}
         />
-      </div>
+      </div> */}
       <div className="w-full h-40 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto">
         {outputDetails ? <>{getOutput()}</> : null}
       </div>

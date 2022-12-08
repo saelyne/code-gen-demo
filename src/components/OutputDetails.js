@@ -1,8 +1,15 @@
 import React from "react";
 
-const OutputDetails = ({ outputDetails }) => {
+const OutputDetails = ({ outputDetails, isCorrect }) => {
   return (
     <div className="metrics-container mt-4 flex flex-col space-y-3">
+      <div>
+        {isCorrect ? (
+          <span style={{ color: "blue" }}>Correct!</span>
+        ) : (
+          <span style={{ color: "red" }}>Wrong Answer</span>
+        )}
+      </div>
       <p className="text-sm">
         Status:{" "}
         <span className="font-semibold px-2 py-1 rounded-md bg-gray-100">

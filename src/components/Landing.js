@@ -20,10 +20,13 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Editor from "@monaco-editor/react";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
 import { completeCodeExamples } from "../constants/completeCodeExamples";
 import { inputExamples } from "../constants/inputExamples";
+import { outputExamples } from "../constants/outputExamples";
 import { functionNames } from "../constants/functionNames";
 
 const Landing = () => {
@@ -37,6 +40,8 @@ const Landing = () => {
   const [tabKey, setTabKey] = useState("example_0");
   const [tabKeyIdx, setTabKeyIdx] = useState(0);
   const [inputIdx, setInputIdx] = useState(0);
+  const [expectedOutput, setExpectedOutput] = useState("");
+  const [isCorrect, setIsCorrect] = useState(null);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -128,6 +133,7 @@ const Landing = () => {
     const input_case_index = parseInt(e.target.value);
     setInputIdx(input_case_index);
     setCustomInput(inputExamples[key_index][input_case_index]);
+    setExpectedOutput(outputExamples[key_index][input_case_index]);
   };
 
   const handleCompile = () => {
@@ -202,13 +208,27 @@ const Landing = () => {
         setProcessing(false);
         setOutputDetails(response.data);
         showSuccessToast(`Compiled Successfully!`);
-        console.log("response.data", response.data);
+        compareOutput(
+          expectedOutput.toString().trim(),
+          atob(response.data.stdout).toString().trim()
+        );
         return;
       }
     } catch (err) {
       console.log("err", err);
       setProcessing(false);
       showErrorToast();
+    }
+  };
+
+  const compareOutput = (expected, output) => {
+    console.log(expected);
+    console.log(output);
+    if (expected === output) {
+      console.log("correct");
+      setIsCorrect(true);
+    } else {
+      setIsCorrect(false);
     }
   };
 
@@ -253,12 +273,10 @@ const Landing = () => {
 
   return (
     <>
-    <style type="text/css">{
-      `.btn-custom {
+      <style type="text/css">{`.btn-custom {
           background-color: purple;
           color: white;
-      }`
-    }</style>
+      }`}</style>
 
       <ToastContainer
         position="top-right"
@@ -345,12 +363,12 @@ const Landing = () => {
               onChange={handleEditorChange}
               options={{
                 fontSize: 15,
-                padding: { top : 50},
+                padding: { top: 50 },
                 minimap: { enabled: false },
                 scrollbar: {
-                  vertical: 'auto',
-                  horizontal: 'auto'
-                }
+                  vertical: "auto",
+                  horizontal: "auto",
+                },
               }}
             />
           </div>
@@ -380,7 +398,6 @@ const Landing = () => {
             <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2 mt-2">
               Test Cases
             </h1>
-            
 
             {/* <Button variant="success">
               {processing ? "Processing..." : "Run"}
@@ -409,30 +426,58 @@ const Landing = () => {
               Case 3
             </Button>
           </div>
+          {/* <Form.Label htmlFor="basic-url">Your vanity URL</Form.Label> */}
+          <InputGroup className="mb-2">
+            <InputGroup.Text id="input-field-text">
+              Input Value{"  "}
+            </InputGroup.Text>
+            <Form.Control
+              id="input-field"
+              aria-describedby="basic-addon3"
+              value={customInput}
+              onChange={(e) => setCustomInput(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup className="mb-2">
+            <InputGroup.Text id="expected-output-field-text">
+              Expected Value
+            </InputGroup.Text>
+            <Form.Control
+              id="expected-output-field"
+              aria-describedby="basic-addon3"
+              value={expectedOutput}
+              onChange={(e) => setExpectedOutput(e.target.value)}
+            />
+          </InputGroup>
+          <Button
+            onClick={handleCompile}
+            disabled={!code}
+            variant="custom"
+            className="mt-2 mb-3"
+            // className={classnames(
+            //   "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0 mt-4",
+            //   !code ? "opacity-50" : ""
+            // )}
+          >
+            {processing ? "Processing..." : "Run"}
+          </Button>
           <OutputWindow
             outputDetails={outputDetails}
-            customInput={customInput}
-            setCustomInput={setCustomInput}
+            // customInput={customInput}
+            // setCustomInput={setCustomInput}
           />
-          <Button
-              onClick={handleCompile}
-              disabled={!code}
-              variant="custom"
-              className="mt-2" 
-              // className={classnames(
-              //   "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0 mt-4",
-              //   !code ? "opacity-50" : ""
-              // )}
-            >
-              {processing ? "Processing..." : "Run"}
-            </Button>
           {/* <div className="flex flex-col items-end">
             <CustomInput
               customInput={customInput}
               setCustomInput={setCustomInput}
             />
           </div> */}
-          {/* {outputDetails && <OutputDetails outputDetails={outputDetails} />} */}
+          {outputDetails && (
+            <OutputDetails
+              outputDetails={outputDetails}
+              isCorrect={isCorrect}
+            />
+          )}
         </div>
       </div>
       <Footer />
