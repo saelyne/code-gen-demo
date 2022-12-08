@@ -22,109 +22,9 @@ import Editor from "@monaco-editor/react";
 import Button from "react-bootstrap/Button";
 import "../App.css";
 import { codeExamples } from "../constants/codeExamples";
-import {inputExamples } from "../constants/inputExamples";
-
-const example_code_0 = `\ndef toList(string):
-  li = list(string[1:-1].split(","))
-  numbers = [int(i) for i in li]
-  return numbers
-
-def mean_absolute_deviation(numbers):
-  """ For a given list of input numbers, calculate Mean Absolute Deviation
-  around the mean of this dataset.
-  Mean Absolute Deviation is the average absolute difference between each
-  element and a centerpoint (mean in this case):
-  MAD = average | x - x_mean |
-  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-  1.0
-  """
-  mean = sum(numbers) / len(numbers)
-  sum_abs_diff = 0
-  for x in numbers:
-      sum_abs_diff += abs(x - mean)
-  return sum_abs_diff / len(numbers)
-
-ans = mean_absolute_deviation(toList(input()))
-print (ans)
-
-`;
-
-const example_code_1 = `\ndef fib(n: int):
-  """Return n-th Fibonacci number.
-  >>> fib(10)
-  55
-  >>> fib(1)
-  1
-  >>> fib(8)
-  21
-  """
-  if n < 2:
-    return n
-  return fib(n-1) + fib(n-2)
-
-ans = fib(int(input()))
-print (ans)
-`;
-
-const example_code_2 = `\ndef toList(string):
-  li = list(string[1:-1].split(","))
-  numbers = [int(i) for i in li]
-  return numbers
-
-def mean_absolute_deviation(numbers):
-  """ For a given list of input numbers, calculate Mean Absolute Deviation
-  around the mean of this dataset.
-  Mean Absolute Deviation is the average absolute difference between each
-  element and a centerpoint (mean in this case):
-  MAD = average | x - x_mean |
-  >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
-  1.0
-  """
-  mean = sum(numbers) / len(numbers)
-  sum_abs_diff = 0
-  for x in numbers:
-      sum_abs_diff += abs(x - mean)
-  return sum_abs_diff / len(numbers)
-
-ans = mean_absolute_deviation(toList(input()))
-print (ans)
-
-`;
-
-const example_code_3 = `\ndef fib(n: int):
-  """Return n-th Fibonacci number.
-  >>> fib(10)
-  55
-  >>> fib(1)
-  1
-  >>> fib(8)
-  21
-  """
-  if n < 2:
-    return n
-  return fib(n-1) + fib(n-2)
-
-ans = fib(int(input()))
-print (ans)
-`;
-
-const input_examples_0 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
-const input_examples_1 = [3, 5, 10];
-const input_examples_2 = ["[1, 2, 3]", "[2, 3, 7, 8, 10]", "[1, 5, 10, 20]"];
-const input_examples_3 = [3, 5, 10];
-
-const code_examples = [
-  example_code_0,
-  example_code_1,
-  example_code_2,
-  example_code_3,
-];
-const input_examples = [
-  input_examples_0,
-  input_examples_1,
-  input_examples_2,
-  input_examples_3,
-];
+import { completeCodeExamples } from "../constants/completeCodeExamples";
+import { inputExamples } from "../constants/inputExamples";
+import { functionNames } from "../constants/functionNames";
 
 const Landing = () => {
   const [code, setCode] = useState(codeExamples[0]);
@@ -135,6 +35,8 @@ const Landing = () => {
   const [theme, setTheme] = useState("oceanic-next");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [tabKey, setTabKey] = useState("example_0");
+  const [tabKeyIdx, setTabKeyIdx] = useState(0);
+  const [inputIdx, setInputIdx] = useState(0);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -177,7 +79,16 @@ const Landing = () => {
 
   const handleGenerateDemo = () => {
     const key_index = parseInt(tabKey.substring(8));
-    setCode(code_examples[key_index]);
+    setCode(completeCodeExamples[key_index]);
+    // const function_start_idx = code.lastIndexOf("def ");
+    // const function_last_idx = code.lastIndexOf('"""');
+    // const before_snippet = code.substring(0, function_start_idx);
+    // const after_snippet = code.substring(function_last_idx);
+    // const function_snippet = code.substring(
+    //   function_start_idx,
+    //   function_last_idx
+    // );
+    // console.log(before_snippet + function_snippet + after_snippet);
   };
 
   const handleGenerate = () => {
@@ -199,8 +110,8 @@ const Landing = () => {
         console.log("res.data", response.data);
         // const token = response.data.token;
         // console.log("0!!",response.data.output[0].truncated_output);
-        var _code
-        _code = code +response.data.output[0].truncated_output;
+        var _code;
+        _code = response.data.output[0].output;
         setCode(_code);
         setGenerating(false);
       })
@@ -215,15 +126,18 @@ const Landing = () => {
   const handleSetInput = (e) => {
     const key_index = parseInt(tabKey.substring(8));
     const input_case_index = parseInt(e.target.value);
-    setCustomInput(input_examples[key_index][input_case_index]);
+    setInputIdx(input_case_index);
+    setCustomInput(inputExamples[key_index][input_case_index]);
   };
 
   const handleCompile = () => {
     setProcessing(true);
+    const key_index = parseInt(tabKey.substring(8));
+    const print_snippet = `\nprint (${functionNames[key_index]}(${customInput}))`;
     const formData = {
       language_id: language.id,
       // encode source code in base64
-      source_code: btoa(code),
+      source_code: btoa(code + print_snippet),
       stdin: btoa(customInput),
     };
     const options = {
@@ -411,7 +325,7 @@ const Landing = () => {
           </Tabs>
         </div>
       </div>
-      <div className="flex flex-row space-x-4 items-start px-4">
+      <div className="flex flex-row space-x-7 items-start px-4">
         <div className="flex flex-col w-full h-full justify-start items-end">
           <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
             <Editor
@@ -453,7 +367,7 @@ const Landing = () => {
           </div>
         </div>
 
-        <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
+        <div className="right-container flex flex-shrink-0 w-[40%] flex-col">
           <div className="flex flex-row justify-between">
             <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2 mt-2">
               Test Cases
@@ -466,21 +380,21 @@ const Landing = () => {
           </div>
           <div className="flex gap-x-2  mb-2">
             <Button
-              variant="success"
+              variant="primary"
               value="0"
               onClick={(e) => handleSetInput(e)}
             >
               Case 1
             </Button>
             <Button
-              variant="warning"
+              variant="primary"
               value="1"
               onClick={(e) => handleSetInput(e)}
             >
               Case 2
             </Button>
             <Button
-              variant="warning"
+              variant="primary"
               value="2"
               onClick={(e) => handleSetInput(e)}
             >
@@ -488,13 +402,14 @@ const Landing = () => {
             </Button>
           </div>
           <OutputWindow
-            outputDetails={outputDetails}
+            // outputDetails={outputDetails}
             customInput={customInput}
             setCustomInput={setCustomInput}
           />
           <button
               onClick={handleCompile}
               disabled={!code}
+              // variant="primary"
               className={classnames(
                 "border-2 border-black z-10 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
                 !code ? "opacity-50" : ""

@@ -6,8 +6,6 @@ const example_code_1 = `def greatest_common_divisor(a: int, b: int) -> int:
     5
     """`;
 
-
-
 const example_code_2 = `\ndef fib(n: int):
     """Return n-th Fibonacci number.
     >>> fib(10)
