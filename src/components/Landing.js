@@ -374,7 +374,8 @@ const Landing = () => {
             ></Tab>
             <Tab eventKey="example_1" title="Fibonacci"></Tab>
             <Tab varient="custom" eventKey="example_2" title="Is Prime"></Tab>
-            <Tab varient="custom" eventKey="example_3" title="Climbing Stair"></Tab>
+            <Tab varient="custom" eventKey="example_3" title="Is Palindrome"></Tab>
+            <Tab varient="custom" eventKey="example_4" title="Climbing Stair"></Tab>
           </Tabs>
         </div>
       </div>
